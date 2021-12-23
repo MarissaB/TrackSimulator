@@ -31,12 +31,10 @@ namespace TrackSimulator
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            string databaseName = "TrackSimDatabase";
-            bool trackTablesCreated = DBHelper.CreateDatabaseTables(databaseName);
-            if (trackTablesCreated)
-            {
-                //TODO: Create logging section 
-            }
+            Logging.CheckLogFileAsync();
+
+            bool purgeTables = false;
+            DBHelper.CreateDatabaseTables(purgeTables);
         }
 
         /// <summary>
