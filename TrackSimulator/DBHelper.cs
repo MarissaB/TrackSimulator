@@ -109,5 +109,43 @@ namespace TrackSimulator
             }
             return drivers;
         }
+
+        public static Driver CreateDriver(Driver driver)
+        {
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "INSERT INTO drivers (FirstName, LastName, City, State, Car_Make, Car_Model, Car_Year, RaceNumber) VALUES (@firstName, @lastName, @city, @state, @car_make, @car_model, @car_year, @raceNumber);";
+                    command.CommandText += " select last_insert_rowid();";
+                    command.Parameters.AddWithValue("@firstName", driver.FirstName);
+                    command.Parameters.AddWithValue("@lastName", driver.LastName);
+                    command.Parameters.AddWithValue("@city", driver.City);
+                    command.Parameters.AddWithValue("@state", driver.State);
+                    command.Parameters.AddWithValue("@car_make", driver.Car_Make);
+                    command.Parameters.AddWithValue("@car_model", driver.Car_Model);
+                    command.Parameters.AddWithValue("@car_year", driver.Car_Year);
+                    command.Parameters.AddWithValue("@raceNumber", driver.RaceNumber);
+                    
+                    Logging.Log(command.CommandText, Logging.LogType.INFO);
+                    
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        driver.ID = Convert.ToInt32(query.GetValue(0));
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("CreateDriver() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return driver;
+        }
     }
 }

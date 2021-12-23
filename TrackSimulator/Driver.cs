@@ -29,6 +29,11 @@ namespace TrackSimulator
             FirstName = firstName;
             LastName = lastName;
             RaceNumber = raceNumber;
+            City = "";
+            State = "";
+            Car_Make = "";
+            Car_Model = "";
+            Car_Year = 9999;
         }
 
         public Driver(SqliteDataReader queryResult)
@@ -56,5 +61,6 @@ namespace TrackSimulator
             searchTerm += " RaceNumber LIKE '%" + RaceNumber + "%'";
             return searchTerm;
         }
+
     }
 }
