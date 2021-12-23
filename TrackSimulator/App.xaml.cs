@@ -35,6 +35,9 @@ namespace TrackSimulator
 
             bool purgeTables = false;
             DBHelper.CreateDatabaseTables(purgeTables);
+            List<Driver> drivers = DBHelper.GetAllDrivers();
+            Driver marissa = new Driver("Marissa", "Berresford", "DYK3");
+            List<Driver> searchDrivers = DBHelper.SearchDrivers(marissa);
         }
 
         /// <summary>

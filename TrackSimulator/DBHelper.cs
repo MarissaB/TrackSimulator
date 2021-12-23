@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using Windows.Storage;
 
@@ -32,15 +33,81 @@ namespace TrackSimulator
                         _ = command.ExecuteNonQuery();
                     }
 
-                    command.CommandText = @"CREATE TABLE drivers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)";
+                    command.CommandText = @"CREATE TABLE IF NOT EXISTS 'drivers' (
+                                            'ID'    INTEGER,
+	                                        'FirstName' TEXT,
+	                                        'LastName'  TEXT,
+	                                        'City'  TEXT,
+	                                        'State' TEXT,
+	                                        'Car_Make'  TEXT,
+	                                        'Car_Model' TEXT,
+	                                        'Car_Year'  INTEGER,
+	                                        'RaceNumber'    TEXT,
+	                                        PRIMARY KEY('ID' AUTOINCREMENT));";
                     _ = command.ExecuteNonQuery();
-                    Logging.Log("Created database tables.", Logging.LogType.INFO);
+                    db.Close();
                 }
             }
             catch (Exception ex)
             {
-                Logging.Log("Sqlite Database Tables for DRIVERS could not be created || " + ex.Message, Logging.LogType.ERROR);
+                Logging.Log("CreateDatabaseTables() failed || " + ex.Message, Logging.LogType.ERROR);
             }
+        }
+
+        public static List<Driver> GetAllDrivers()
+        {
+            List<Driver> drivers = new List<Driver>();
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "SELECT * FROM drivers";
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        Driver driver = new Driver(query);
+                        drivers.Add(driver);
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("GetAllDrivers() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return drivers;
+        }
+
+        public static List<Driver> SearchDrivers(Driver driver)
+        {
+            List<Driver> drivers = new List<Driver>();
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "SELECT * FROM drivers WHERE " + driver.SearchTerms();
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        Driver foundDriver = new Driver(query);
+                        drivers.Add(driver);
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("SearchDrivers() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return drivers;
         }
     }
 }
