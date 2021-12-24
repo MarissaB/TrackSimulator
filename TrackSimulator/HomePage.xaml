@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-
+    <Grid Padding="12,0,12,24">
+        <TextBlock>Use the navigation to the left to move around the application.</TextBlock>
     </Grid>
 </Page>
