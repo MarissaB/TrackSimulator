@@ -4,11 +4,56 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TrackSimulator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        
+        <muxc:NavigationView x:Name="Navigation" IsSettingsVisible="false" PaneTitle="Track Simulator" IsBackButtonVisible="Collapsed"
+                             Loaded="Navigation_Loaded" SelectionChanged="Navigation_SelectionChanged"
+                             PaneDisplayMode="Auto">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Icon="Home"  Content="Home" Tag="home" />
+                <muxc:NavigationViewItemSeparator/>
+                
+                <muxc:NavigationViewItemHeader Content="View and Edit Data"/>
+                <muxc:NavigationViewItem Icon="People"  Content="Drivers" Tag="drivers" />
+                <muxc:NavigationViewItem Content="Classes" Tag="classes">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE804;" FontFamily="Segoe MDL2 Assets"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Reports" Tag="reports" >
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xF571;" FontFamily="Segoe MDL2 Assets"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItemSeparator/>
+                
+                <muxc:NavigationViewItemHeader Content="View Event Displays"/>
+                <muxc:NavigationViewItem Content="Racing" Tag="RacingPage">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE916;" FontFamily="Segoe MDL2 Assets"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Icon="Microphone" Content="Announcer" Tag="AnnouncerPage" />
+                <muxc:NavigationViewItem Icon="Print" Content="Printing" Tag="PrintPage" />
+                <muxc:NavigationViewItemSeparator/>
+                <muxc:NavigationViewItem Content="Reactions" Tag="ReactionsPage" Visibility="Collapsed">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7FC;" FontFamily="Segoe MDL2 Assets"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
+            
+            <ScrollViewer>
+                <Frame x:Name="ContentFrame" Padding="12,0,12,24" IsTabStop="True"/>
+            </ScrollViewer>
+
+            <muxc:NavigationView.FooterMenuItems>
+                <muxc:NavigationViewItem Icon="Setting" Content="Settings" Tag="SettingsPage" />
+                <muxc:NavigationViewItem Icon="Help" Content="Help" Tag="HelpPage" />
+            </muxc:NavigationView.FooterMenuItems>
+        </muxc:NavigationView>
     </Grid>
 </Page>

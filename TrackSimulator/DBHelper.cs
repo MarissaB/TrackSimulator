@@ -54,6 +54,10 @@ namespace TrackSimulator
             }
         }
 
+        /// <summary>
+        /// Loads all drivers from the database
+        /// </summary>
+        /// <returns>List of Drivers</returns>
         public static List<Driver> GetAllDrivers()
         {
             List<Driver> drivers = new List<Driver>();
@@ -82,6 +86,11 @@ namespace TrackSimulator
             return drivers;
         }
 
+        /// <summary>
+        /// Searches the database for drivers
+        /// </summary>
+        /// <param name="driver">Driver to search on</param>
+        /// <returns>List of corresponding drivers</returns>
         public static List<Driver> SearchDrivers(Driver driver)
         {
             List<Driver> drivers = new List<Driver>();
@@ -110,6 +119,11 @@ namespace TrackSimulator
             return drivers;
         }
 
+        /// <summary>
+        /// Creates a new Driver entry in the database
+        /// </summary>
+        /// <param name="driver">Driver to be created</param>
+        /// <returns>Driver with new row ID</returns>
         public static Driver CreateDriver(Driver driver)
         {
             try
@@ -129,9 +143,7 @@ namespace TrackSimulator
                     command.Parameters.AddWithValue("@car_model", driver.Car_Model);
                     command.Parameters.AddWithValue("@car_year", driver.Car_Year);
                     command.Parameters.AddWithValue("@raceNumber", driver.RaceNumber);
-                    
-                    Logging.Log(command.CommandText, Logging.LogType.INFO);
-                    
+                                        
                     SqliteDataReader query = command.ExecuteReader();
 
                     while (query.Read())

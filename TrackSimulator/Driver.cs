@@ -49,11 +49,19 @@ namespace TrackSimulator
             RaceNumber = (string)queryResult.GetValue(8);
         }
 
+        /// <summary>
+        /// Full name of the Driver
+        /// </summary>
+        /// <returns></returns>
         public string FullName()
         {
             return FirstName + " " + LastName;
         }
 
+        /// <summary>
+        /// Build the search terms for a driver based on FirstName, LastName, and RaceNumber
+        /// </summary>
+        /// <returns>search string</returns>
         public string SearchTerms()
         {
             string searchTerm = " FirstName LIKE '%" + FirstName + "%' and ";
