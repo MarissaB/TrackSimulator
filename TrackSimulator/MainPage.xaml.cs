@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -24,6 +26,7 @@ namespace TrackSimulator
         public MainPage()
         {
             InitializeComponent();
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
         }
 
         /// <summary>
@@ -95,8 +98,7 @@ namespace TrackSimulator
                     .OfType<muxc.NavigationViewItem>()
                     .First(n => n.Tag.Equals(item.Tag));
 
-                Navigation.Header =
-                    ((muxc.NavigationViewItem)Navigation.SelectedItem)?.Content?.ToString();
+                //Navigation.Header = ((muxc.NavigationViewItem)Navigation.SelectedItem)?.Content?.ToString();
             }
         }
     }

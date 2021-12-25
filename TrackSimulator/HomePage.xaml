@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page xmlns:my="using:Microsoft.UI.Xaml.Controls" 
     x:Class="TrackSimulator.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,21 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="12,0,12,24">
-        <TextBlock>Use the navigation to the left to move around the application.</TextBlock>
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+            <TextBlock>Use the navigation to the left to move around the application.</TextBlock>
+            <GridViewHeaderItem Content="Driver Page Progress"/>
+            <ProgressBar Value="5" Margin="10" />
+            <GridViewHeaderItem Content="Class Page Progress"/>
+            <ProgressBar Value="0" Margin="10" />
+            <GridViewHeaderItem Content="Report Page Progress"/>
+            <ProgressBar Value="0" Margin="10" />
+            <GridViewHeaderItem Content="Racing Page Progress"/>
+            <ProgressBar Value="0" Margin="10" />
+            <GridViewHeaderItem Content="Announcer Page Progress"/>
+            <ProgressBar Value="0" Margin="10" />
+            <GridViewHeaderItem Content="Print Page Progress"/>
+            <ProgressBar Value="0" Margin="10" />
+        </StackPanel>
     </Grid>
 </Page>

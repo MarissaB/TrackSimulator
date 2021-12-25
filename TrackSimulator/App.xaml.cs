@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -39,7 +40,7 @@ namespace TrackSimulator
             Driver marissa = new Driver("Marissa", "Berresford", "DYK3");
             List<Driver> searchDrivers = DBHelper.SearchDrivers(marissa);
             Driver stig = new Driver("The", "Stig", "ST1G");
-            stig = DBHelper.CreateDriver(stig);
+            //stig = DBHelper.CreateDriver(stig);
         }
 
         /// <summary>

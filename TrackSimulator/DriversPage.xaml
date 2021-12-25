@@ -4,11 +4,43 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TrackSimulator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <StackPanel Orientation="Vertical" Padding="10,0,0,0">
+            <TextBlock x:Name="PageHeader" Text="Drivers" FontSize="42" FontWeight="Bold"/>
+            <TextBlock x:Name="Directions" FontSize="16" Padding="0,10,0,10" Text="Search for Drivers using the filter fields or click 'Create Driver' to add a new entry." TextWrapping="Wrap"/>
+            <controls:WrapPanel x:Name="Filters">
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <TextBlock Text="First Name:" VerticalAlignment="Center" Margin="10"/>
+                    <TextBox x:Name="FirstName" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <TextBlock Text="Last Name:" VerticalAlignment="Center" Margin="10"/>
+                    <TextBox x:Name="LastName" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <TextBlock Text="Driver Number:" VerticalAlignment="Center" Margin="10"/>
+                    <TextBox x:Name="RaceNumber" Width="75"/>
+                </StackPanel>
+            </controls:WrapPanel>
+            <StackPanel x:Name="ButtonBar" Orientation="Horizontal">
+                <Button x:Name="Search" Margin="20,10,50,10" Click="Search_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE721;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0"/>
+                        <TextBlock Text="Search"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="NewDriver" Click="NewDriver_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE8FA;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0"/>
+                        <TextBlock Text="Create Driver..."/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <controls:DataGrid x:Name="SearchResults" AutoGenerateColumns="False" SelectionMode="Single"/>
+        </StackPanel>
     </Grid>
 </Page>

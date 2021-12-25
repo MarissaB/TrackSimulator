@@ -26,5 +26,15 @@ namespace TrackSimulator
         {
             this.InitializeComponent();
         }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NewDriver_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
