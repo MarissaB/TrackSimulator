@@ -2,9 +2,9 @@
     x:Class="TrackSimulator.DriversPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TrackSimulator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -25,12 +25,19 @@
                     <TextBlock Text="Driver Number:" VerticalAlignment="Center" Margin="10"/>
                     <TextBox x:Name="RaceNumber" Width="75"/>
                 </StackPanel>
+                <CheckBox x:Name="IncludeInactives" Content="Include Inactive Drivers" VerticalAlignment="Center"/>
             </controls:WrapPanel>
             <StackPanel x:Name="ButtonBar" Orientation="Horizontal">
                 <Button x:Name="Search" Margin="20,10,50,10" Click="Search_Click">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon Glyph="&#xE721;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0"/>
                         <TextBlock Text="Search"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="EditDriver" Click="EditDriver_Click" Margin="0,10,50,10" IsEnabled="False" >
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0"/>
+                        <TextBlock Text="Edit Driver..."/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="NewDriver" Click="NewDriver_Click">
@@ -40,7 +47,16 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <controls:DataGrid x:Name="SearchResults" AutoGenerateColumns="False" SelectionMode="Single"/>
+            <controls:DataGrid x:Name="SearchResults" ItemsSource="{x:Bind DriverTable}" AutoGenerateColumns="False" Height="600"
+                               SelectionMode="Single" SelectionChanged="SearchResults_SelectionChanged" IsReadOnly="True">
+                <controls:DataGrid.Columns>
+                    <controls:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Tag="FirstName" />
+                    <controls:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Tag="LastName" />
+                    <controls:DataGridTextColumn Header="Race Number" Binding="{Binding RaceNumber}" Tag="RaceNumber" />
+                    <controls:DataGridCheckBoxColumn Header="Active" Binding="{Binding Active}" Tag="Active" />
+                </controls:DataGrid.Columns>
+
+            </controls:DataGrid>
         </StackPanel>
     </Grid>
 </Page>

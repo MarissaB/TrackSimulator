@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.Data.Sqlite;
 using Windows.Storage;
 
@@ -33,7 +34,8 @@ namespace TrackSimulator
                         _ = command.ExecuteNonQuery();
                     }
 
-                    command.CommandText = @"CREATE TABLE IF NOT EXISTS 'drivers' (
+                    command.CommandText =
+                        @"CREATE TABLE IF NOT EXISTS 'drivers' (
                                             'ID'    INTEGER,
 	                                        'FirstName' TEXT,
 	                                        'LastName'  TEXT,
@@ -43,7 +45,8 @@ namespace TrackSimulator
 	                                        'Car_Model' TEXT,
 	                                        'Car_Year'  INTEGER,
 	                                        'RaceNumber'    TEXT,
-	                                        PRIMARY KEY('ID' AUTOINCREMENT));";
+                                            'Active'    TEXT NOT NULL DEFAULT 'true',
+                                            PRIMARY KEY('ID' AUTOINCREMENT));";
                     _ = command.ExecuteNonQuery();
                     db.Close();
                 }
@@ -91,7 +94,7 @@ namespace TrackSimulator
         /// </summary>
         /// <param name="driver">Driver to search on</param>
         /// <returns>List of corresponding drivers</returns>
-        public static List<Driver> SearchDrivers(Driver driver)
+        public static List<Driver> SearchDrivers(Driver driver, bool includeInactives)
         {
             List<Driver> drivers = new List<Driver>();
             try
@@ -101,13 +104,13 @@ namespace TrackSimulator
                     db.Open();
                     SqliteCommand command = new SqliteCommand();
                     command.Connection = db;
-                    command.CommandText = "SELECT * FROM drivers WHERE " + driver.SearchTerms();
+                    command.CommandText = "SELECT * FROM drivers WHERE " + driver.SearchTerms(includeInactives);
                     SqliteDataReader query = command.ExecuteReader();
 
                     while (query.Read())
                     {
                         Driver foundDriver = new Driver(query);
-                        drivers.Add(driver);
+                        drivers.Add(foundDriver);
                     }
                     db.Close();
                 }
@@ -133,7 +136,7 @@ namespace TrackSimulator
                     db.Open();
                     SqliteCommand command = new SqliteCommand();
                     command.Connection = db;
-                    command.CommandText = "INSERT INTO drivers (FirstName, LastName, City, State, Car_Make, Car_Model, Car_Year, RaceNumber) VALUES (@firstName, @lastName, @city, @state, @car_make, @car_model, @car_year, @raceNumber);";
+                    command.CommandText = "INSERT INTO drivers (FirstName, LastName, City, State, Car_Make, Car_Model, Car_Year, RaceNumber, Active) VALUES (@firstName, @lastName, @city, @state, @car_make, @car_model, @car_year, @raceNumber, @active);";
                     command.CommandText += " select last_insert_rowid();";
                     command.Parameters.AddWithValue("@firstName", driver.FirstName);
                     command.Parameters.AddWithValue("@lastName", driver.LastName);
@@ -143,7 +146,8 @@ namespace TrackSimulator
                     command.Parameters.AddWithValue("@car_model", driver.Car_Model);
                     command.Parameters.AddWithValue("@car_year", driver.Car_Year);
                     command.Parameters.AddWithValue("@raceNumber", driver.RaceNumber);
-                                        
+                    command.Parameters.AddWithValue("@active", true);
+
                     SqliteDataReader query = command.ExecuteReader();
 
                     while (query.Read())

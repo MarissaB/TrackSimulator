@@ -9,15 +9,20 @@ namespace TrackSimulator
 {
     public class Driver
     {
-        public int ID;
-        public string FirstName;
-        public string LastName;
-        public string City;
-        public string State;
-        public string Car_Make;
-        public string Car_Model;
-        public int Car_Year;
-        public string RaceNumber;
+        public int ID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Car_Make { get; set; }
+        public string Car_Model { get; set; }
+        public int Car_Year { get; set; }
+        public string RaceNumber { get; set; }
+        /// <summary>
+        /// Whether the driver is active in the system or has been deactivated.
+        /// Drivers that have retired or left are deactivated rather than deleted from the DB to preserve records.
+        /// </summary>
+        public bool Active { get; set; }
 
         public Driver()
         {
@@ -26,6 +31,7 @@ namespace TrackSimulator
 
         public Driver(string firstName, string lastName, string raceNumber)
         {
+            ID = 0;
             FirstName = firstName;
             LastName = lastName;
             RaceNumber = raceNumber;
@@ -34,6 +40,7 @@ namespace TrackSimulator
             Car_Make = "";
             Car_Model = "";
             Car_Year = 9999;
+            Active = true;
         }
 
         public Driver(SqliteDataReader queryResult)
@@ -47,6 +54,15 @@ namespace TrackSimulator
             Car_Model = (string)queryResult.GetValue(6);
             Car_Year = Convert.ToInt32(queryResult.GetValue(7));
             RaceNumber = (string)queryResult.GetValue(8);
+            string activeResult = (string)queryResult.GetValue(9);
+            if (activeResult == "false")
+            {
+                Active = false;
+            }
+            else
+            {
+                Active = true;
+            }
         }
 
         /// <summary>
@@ -61,12 +77,17 @@ namespace TrackSimulator
         /// <summary>
         /// Build the search terms for a driver based on FirstName, LastName, and RaceNumber
         /// </summary>
+        /// <param name="includeInactives">Whether to include inactive records in the search</param>
         /// <returns>search string</returns>
-        public string SearchTerms()
+        public string SearchTerms(bool includeInactives)
         {
             string searchTerm = " FirstName LIKE '%" + FirstName + "%' and ";
             searchTerm += " LastName LIKE '%" + LastName + "%' and ";
             searchTerm += " RaceNumber LIKE '%" + RaceNumber + "%'";
+            if (!includeInactives)
+            {
+                searchTerm += " and Active LIKE 'true'";
+            }
             return searchTerm;
         }
 
