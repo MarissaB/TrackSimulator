@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local="using:TrackSimulator"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -47,15 +48,14 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <controls:DataGrid x:Name="SearchResults" ItemsSource="{x:Bind DriverTable}" AutoGenerateColumns="False" Height="600"
-                               SelectionMode="Single" SelectionChanged="SearchResults_SelectionChanged" IsReadOnly="True">
+            <controls:DataGrid x:Name="DriverDisplayTable" ItemsSource="{x:Bind DriverTable}" AutoGenerateColumns="False" Height="600"
+                               SelectionMode="Single" SelectionChanged="DriverDisplayTable_SelectionChanged" IsReadOnly="True">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Tag="FirstName" />
                     <controls:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Tag="LastName" />
                     <controls:DataGridTextColumn Header="Race Number" Binding="{Binding RaceNumber}" Tag="RaceNumber" />
                     <controls:DataGridCheckBoxColumn Header="Active" Binding="{Binding Active}" Tag="Active" />
                 </controls:DataGrid.Columns>
-
             </controls:DataGrid>
         </StackPanel>
     </Grid>

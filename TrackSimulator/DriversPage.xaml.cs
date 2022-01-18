@@ -3,12 +3,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System.Collections.ObjectModel;
+using System;
 
 namespace TrackSimulator
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class DriversPage : Page
     {
         public List<Driver> DriverTable { get; set; }
@@ -26,15 +24,16 @@ namespace TrackSimulator
             RefreshSearchResults();
         }
 
-        private void NewDriver_Click(object sender, RoutedEventArgs e)
+        private async void NewDriver_Click(object sender, RoutedEventArgs e)
         {
-
+            Dialog_NewDriver dialog = new Dialog_NewDriver();
+            _ = await dialog.ShowAsync();
         }
 
         private void RefreshSearchResults()
         {
-            SearchResults.ItemsSource = null;
-            SearchResults.ItemsSource = DriverTable;
+            DriverDisplayTable.ItemsSource = null;
+            DriverDisplayTable.ItemsSource = DriverTable;
         }
 
         private void EditDriver_Click(object sender, RoutedEventArgs e)
@@ -42,9 +41,9 @@ namespace TrackSimulator
 
         }
 
-        private void SearchResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DriverDisplayTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SearchResults.SelectedItems.Count == 1)
+            if (DriverDisplayTable.SelectedItems.Count == 1)
             {
                 EditDriver.IsEnabled = true;
             }

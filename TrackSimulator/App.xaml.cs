@@ -36,7 +36,6 @@ namespace TrackSimulator
 
             bool purgeTables = false;
             DBHelper.CreateDatabaseTables(purgeTables);
-
         }
 
         /// <summary>

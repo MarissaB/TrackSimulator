@@ -136,7 +136,7 @@ namespace TrackSimulator
                     db.Open();
                     SqliteCommand command = new SqliteCommand();
                     command.Connection = db;
-                    command.CommandText = "INSERT INTO drivers (FirstName, LastName, City, State, Car_Make, Car_Model, Car_Year, RaceNumber, Active) VALUES (@firstName, @lastName, @city, @state, @car_make, @car_model, @car_year, @raceNumber, @active);";
+                    command.CommandText = "INSERT INTO drivers (FirstName, LastName, City, State, Car_Make, Car_Model, Car_Year, DriverNumber, Active) VALUES (@firstName, @lastName, @city, @state, @car_make, @car_model, @car_year, @driverNumber, @active);";
                     command.CommandText += " select last_insert_rowid();";
                     command.Parameters.AddWithValue("@firstName", driver.FirstName);
                     command.Parameters.AddWithValue("@lastName", driver.LastName);
@@ -145,8 +145,8 @@ namespace TrackSimulator
                     command.Parameters.AddWithValue("@car_make", driver.Car_Make);
                     command.Parameters.AddWithValue("@car_model", driver.Car_Model);
                     command.Parameters.AddWithValue("@car_year", driver.Car_Year);
-                    command.Parameters.AddWithValue("@raceNumber", driver.RaceNumber);
-                    command.Parameters.AddWithValue("@active", true);
+                    command.Parameters.AddWithValue("@driverNumber", driver.DriverNumber);
+                    command.Parameters.AddWithValue("@active", driver.Active.ToString());
 
                     SqliteDataReader query = command.ExecuteReader();
 
@@ -162,6 +162,56 @@ namespace TrackSimulator
                 Logging.Log("CreateDriver() failed || " + ex.Message, Logging.LogType.ERROR);
             }
             return driver;
+        }
+
+        /// <summary>
+        /// Updates a driver record in the database
+        /// </summary>
+        /// <param name="driver">Driver to update</param>
+        /// <returns>Boolean for whether the command was successful</returns>
+        public static bool UpdateDriver(Driver driver)
+        {
+            bool isSuccessful = false;
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "UPDATE drivers SET " +
+                        "FirstName = @firstName, " +
+                        "LastName = @lastName, " +
+                        "City = @city, " +
+                        "State = @state, " +
+                        "Car_Make = @car_make, " +
+                        "Car_Model = @car_model, " +
+                        "Car_Year = @car_year, " +
+                        "DriverNumber = @driverNumber," +
+                        "Active = @active " +
+                        "WHERE ID = @id";
+                    command.CommandText += " select last_insert_rowid();";
+                    command.Parameters.AddWithValue("@firstName", driver.FirstName);
+                    command.Parameters.AddWithValue("@lastName", driver.LastName);
+                    command.Parameters.AddWithValue("@city", driver.City);
+                    command.Parameters.AddWithValue("@state", driver.State);
+                    command.Parameters.AddWithValue("@car_make", driver.Car_Make);
+                    command.Parameters.AddWithValue("@car_model", driver.Car_Model);
+                    command.Parameters.AddWithValue("@car_year", driver.Car_Year);
+                    command.Parameters.AddWithValue("@driverNumber", driver.DriverNumber);
+                    command.Parameters.AddWithValue("@active", driver.Active.ToString());
+                    command.Parameters.AddWithValue("@id", driver.ID);
+
+                    SqliteDataReader query = command.ExecuteReader();
+                    db.Close();
+                    isSuccessful = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("UpdateDriver() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return isSuccessful;
         }
     }
 }

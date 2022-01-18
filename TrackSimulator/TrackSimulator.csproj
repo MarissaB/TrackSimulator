@@ -120,6 +120,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DBHelper.cs" />
+    <Compile Include="Dialog_NewDriver.xaml.cs">
+      <DependentUpon>Dialog_NewDriver.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Driver.cs" />
     <Compile Include="DriversPage.xaml.cs">
       <DependentUpon>DriversPage.xaml</DependentUpon>
@@ -153,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialog_NewDriver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DriversPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
