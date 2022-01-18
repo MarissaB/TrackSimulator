@@ -36,9 +36,11 @@ namespace TrackSimulator
             DriverDisplayTable.ItemsSource = DriverTable;
         }
 
-        private void EditDriver_Click(object sender, RoutedEventArgs e)
+        private async void EditDriver_Click(object sender, RoutedEventArgs e)
         {
-
+            Dialog_EditDriver dialog = new Dialog_EditDriver((Driver)DriverDisplayTable.SelectedItem);
+            _ = await dialog.ShowAsync();
+            RefreshSearchResults();
         }
 
         private void DriverDisplayTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
