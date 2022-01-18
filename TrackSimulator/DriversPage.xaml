@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:local="using:TrackSimulator"
+    xmlns:local="using:TrackSimulator" d:DataContext="{d:DesignInstance Type=local:Driver}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -15,16 +15,16 @@
             <TextBlock x:Name="Directions" FontSize="16" Padding="0,10,0,10" Text="Search for Drivers using the filter fields or click 'Create Driver' to add a new entry." TextWrapping="Wrap"/>
             <controls:WrapPanel x:Name="Filters">
                 <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <TextBlock Text="Driver Number:" VerticalAlignment="Center" Margin="10"/>
+                    <TextBox x:Name="DriverNumber" Width="125"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
                     <TextBlock Text="First Name:" VerticalAlignment="Center" Margin="10"/>
                     <TextBox x:Name="FirstName" Width="200"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
                     <TextBlock Text="Last Name:" VerticalAlignment="Center" Margin="10"/>
                     <TextBox x:Name="LastName" Width="200"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
-                    <TextBlock Text="Driver Number:" VerticalAlignment="Center" Margin="10"/>
-                    <TextBox x:Name="RaceNumber" Width="75"/>
                 </StackPanel>
                 <CheckBox x:Name="IncludeInactives" Content="Include Inactive Drivers" VerticalAlignment="Center"/>
             </controls:WrapPanel>
@@ -49,13 +49,31 @@
                 </Button>
             </StackPanel>
             <controls:DataGrid x:Name="DriverDisplayTable" ItemsSource="{x:Bind DriverTable}" AutoGenerateColumns="False" Height="600"
-                               SelectionMode="Single" SelectionChanged="DriverDisplayTable_SelectionChanged" IsReadOnly="True">
+                               SelectionMode="Single" SelectionChanged="DriverDisplayTable_SelectionChanged" IsReadOnly="True"
+                               RowDetailsVisibilityMode="VisibleWhenSelected">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Tag="FirstName" />
                     <controls:DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Tag="LastName" />
-                    <controls:DataGridTextColumn Header="Race Number" Binding="{Binding RaceNumber}" Tag="RaceNumber" />
+                    <controls:DataGridTextColumn Header="Driver Number" Binding="{Binding DriverNumber}" Tag="DriverNumber" />
                     <controls:DataGridCheckBoxColumn Header="Active" Binding="{Binding Active}" Tag="Active" />
                 </controls:DataGrid.Columns>
+                <controls:DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Padding="10" Background="#EAEAEA" BorderThickness="1" BorderBrush="#CCC">
+                            <StackPanel Orientation="Horizontal" Padding="10">
+                            <TextBlock Text="Location:" Margin="0,0,10,0" Width="70px"/>
+                                <TextBlock Text="{Binding City}" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding State}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Padding="10">
+                                <TextBlock Text="Vehicle:" Margin="0,0,10,0" Width="70px"/>
+                                <TextBlock Text="{Binding Car_Year}" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Car_Make}" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Car_Model}" Margin="0,0,10,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:DataGrid.RowDetailsTemplate>
             </controls:DataGrid>
         </StackPanel>
     </Grid>

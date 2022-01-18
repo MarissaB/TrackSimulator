@@ -44,7 +44,7 @@ namespace TrackSimulator
 	                                        'Car_Make'  TEXT,
 	                                        'Car_Model' TEXT,
 	                                        'Car_Year'  INTEGER,
-	                                        'RaceNumber'    TEXT,
+	                                        'DriverNumber'    TEXT,
                                             'Active'    TEXT NOT NULL DEFAULT 'true',
                                             PRIMARY KEY('ID' AUTOINCREMENT));";
                     _ = command.ExecuteNonQuery();

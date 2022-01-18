@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,9 @@ namespace TrackSimulator
 {
     public class Driver
     {
+        /// <summary>
+        /// Database ID. An unsaved Driver has an ID of 0.
+        /// </summary>
         public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,6 +21,11 @@ namespace TrackSimulator
         public string Car_Make { get; set; }
         public string Car_Model { get; set; }
         public int Car_Year { get; set; }
+        /// <summary>
+        /// The alphanumeric number displayed on whatever vehicle(s) a driver is racing.
+        /// One person can have multiple driver numbers to account for several vehicles, or they can 
+        /// have just a personal number that they use no matter what vehicle they're in.
+        /// </summary>
         public string DriverNumber { get; set; }
         /// <summary>
         /// Whether the driver is active in the system or has been deactivated.
@@ -39,7 +48,7 @@ namespace TrackSimulator
             State = "";
             Car_Make = "";
             Car_Model = "";
-            Car_Year = 9999;
+            Car_Year = 0;
             Active = true;
         }
 
@@ -66,16 +75,7 @@ namespace TrackSimulator
         }
 
         /// <summary>
-        /// Full name of the Driver
-        /// </summary>
-        /// <returns></returns>
-        public string FullName()
-        {
-            return FirstName + " " + LastName;
-        }
-
-        /// <summary>
-        /// Build the search terms for a driver based on FirstName, LastName, and RaceNumber
+        /// Build the search terms for a driver based on FirstName, LastName, and DriverNumber
         /// </summary>
         /// <param name="includeInactives">Whether to include inactive records in the search</param>
         /// <returns>search string</returns>

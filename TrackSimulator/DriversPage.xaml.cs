@@ -9,7 +9,7 @@ namespace TrackSimulator
 {
     public sealed partial class DriversPage : Page
     {
-        public List<Driver> DriverTable { get; set; }
+        public List<Driver> DriverTable { get; set; } = new List<Driver>();
         public DriversPage()
         {
             InitializeComponent();
@@ -19,7 +19,7 @@ namespace TrackSimulator
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            Driver findDriver = new Driver(FirstName.Text, LastName.Text, RaceNumber.Text);
+            Driver findDriver = new Driver(FirstName.Text, LastName.Text, DriverNumber.Text);
             DriverTable = DBHelper.SearchDrivers(findDriver, IncludeInactives.IsChecked.Value);
             RefreshSearchResults();
         }
