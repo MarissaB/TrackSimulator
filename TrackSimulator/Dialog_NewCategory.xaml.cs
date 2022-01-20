@@ -24,6 +24,7 @@ namespace TrackSimulator
             this.InitializeComponent();
         }
 
+        // TODO: Start next session here
         private void PopulateFields()
         {
             List<int> lengths = new List<int>();

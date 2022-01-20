@@ -40,7 +40,8 @@ namespace TrackSimulator
 
         private void NewCategory_Click(object sender, RoutedEventArgs e)
         {
-
+            Dialog_NewCategory dialog = new Dialog_NewCategory();
+            _ = dialog.ShowAsync();
         }
 
         private void EditCategory_Click(object sender, RoutedEventArgs e)
