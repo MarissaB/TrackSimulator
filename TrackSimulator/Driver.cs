@@ -33,10 +33,7 @@ namespace TrackSimulator
         /// </summary>
         public bool Active { get; set; }
 
-        public Driver()
-        {
-
-        }
+        public Driver() { }
 
         public Driver(string firstName, string lastName, string driverNumber)
         {

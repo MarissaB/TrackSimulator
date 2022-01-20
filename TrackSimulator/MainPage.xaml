@@ -17,7 +17,7 @@
 
                 <muxc:NavigationViewItemHeader Content="View and Edit Data"/>
                 <muxc:NavigationViewItem Icon="People"  Content="Drivers" Tag="drivers" />
-                <muxc:NavigationViewItem Content="Classes" Tag="classes">
+                <muxc:NavigationViewItem Content="Categories" Tag="categories">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE804;" FontFamily="Segoe MDL2 Assets"/>
                     </muxc:NavigationViewItem.Icon>

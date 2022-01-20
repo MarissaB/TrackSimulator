@@ -22,6 +22,20 @@ namespace TrackSimulator
         {
             this.InitializeComponent();
             EditingDriver = driverToEdit;
+            PopulateFields();
+        }
+
+        private void PopulateFields()
+        {
+            FirstNameEntry.Text = EditingDriver.FirstName;
+            LastNameEntry.Text = EditingDriver.LastName;
+            DriverNumberEntry.Text = EditingDriver.DriverNumber;
+            CityEntry.Text = EditingDriver.City;
+            StateEntry.Text = EditingDriver.State;
+            CarMakeEntry.Text = EditingDriver.Car_Make;
+            CarModelEntry.Text = EditingDriver.Car_Model;
+            CarYearEntry.Text = EditingDriver.Car_Year.ToString();
+            ActiveEntry.IsChecked = EditingDriver.Active;
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

@@ -35,7 +35,8 @@ namespace TrackSimulator
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
             ("home", typeof(HomePage)),
-            ("drivers", typeof(DriversPage))
+            ("drivers", typeof(DriversPage)),
+            ("categories", typeof(CategoriesPage))
         };
 
         private void Navigation_Loaded(object sender, RoutedEventArgs e)

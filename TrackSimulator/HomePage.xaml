@@ -12,9 +12,9 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
             <TextBlock>Use the navigation to the left to move around the application.</TextBlock>
             <GridViewHeaderItem Content="Driver Page Progress"/>
-            <ProgressBar Value="5" Margin="10" />
-            <GridViewHeaderItem Content="Class Page Progress"/>
-            <ProgressBar Value="0" Margin="10" />
+            <ProgressBar Value="100" Margin="10" />
+            <GridViewHeaderItem Content="Category Page Progress"/>
+            <ProgressBar Value="25" Margin="10" />
             <GridViewHeaderItem Content="Report Page Progress"/>
             <ProgressBar Value="0" Margin="10" />
             <GridViewHeaderItem Content="Racing Page Progress"/>

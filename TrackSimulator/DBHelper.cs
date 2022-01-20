@@ -11,12 +11,13 @@ namespace TrackSimulator
         private static readonly string DatabaseFileName = "TrackSimulator.db";
         private static readonly string DatabaseFilePath = ApplicationData.Current.LocalFolder.Path + "\\" + DatabaseFileName;
         public static SqliteConnection DatabaseFile { get; set; }
-        
+
+        #region Driver Commands
         /// <summary>
-        /// Creates all database tables in a new connection.
+        /// Creates the driver table
         /// </summary>
-        /// <param name="purge">Whether to purge all tables in the database</param>
-        internal static void CreateDatabaseTables(bool purge)
+        /// <param name="purge">Whether to purge the table from the database</param>
+        internal static void CreateDriversTable(bool purge)
         {
             try
             {
@@ -53,7 +54,7 @@ namespace TrackSimulator
             }
             catch (Exception ex)
             {
-                Logging.Log("CreateDatabaseTables() failed || " + ex.Message, Logging.LogType.ERROR);
+                Logging.Log("CreateDriverTable() failed || " + ex.Message, Logging.LogType.ERROR);
             }
         }
 
@@ -190,7 +191,6 @@ namespace TrackSimulator
                         "DriverNumber = @driverNumber," +
                         "Active = @active " +
                         "WHERE ID = @id";
-                    command.CommandText += " select last_insert_rowid();";
                     command.Parameters.AddWithValue("@firstName", driver.FirstName);
                     command.Parameters.AddWithValue("@lastName", driver.LastName);
                     command.Parameters.AddWithValue("@city", driver.City);
@@ -213,5 +213,159 @@ namespace TrackSimulator
             }
             return isSuccessful;
         }
+        #endregion
+
+        #region Category Commands
+        /// <summary>
+        /// Creates the categories table
+        /// </summary>
+        /// <param name="purge">Whether to purge the table from the database</param>
+        internal static void CreateCategoriesTable(bool purge)
+        {
+            try
+            {
+                DatabaseFile = new SqliteConnection("Filename=" + DatabaseFilePath);
+
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    if (purge)
+                    {
+                        command.CommandText = @"DROP TABLE IF EXISTS categories";
+                        _ = command.ExecuteNonQuery();
+                    }
+
+                    command.CommandText =
+                        @"CREATE TABLE IF NOT EXISTS 'categories' (
+                                            'ID'    INTEGER,
+	                                        'Name' TEXT,
+                                            'Length' INTEGER,
+	                                        'Qualifying'  TEXT,
+	                                        'Light'  TEXT,
+	                                        'Ladder' TEXT,
+                                            'Active'    TEXT NOT NULL DEFAULT 'true',
+                                            PRIMARY KEY('ID' AUTOINCREMENT));";
+                    _ = command.ExecuteNonQuery();
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("CreateCategoriesTable() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+        }
+
+        /// <summary>
+        /// Loads all categories from the database
+        /// </summary>
+        /// <returns>List of Drivers</returns>
+        public static List<Category> GetAllCategories()
+        {
+            List<Category> categories = new List<Category>();
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "SELECT * FROM categories";
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        Category category = new Category(query);
+                        categories.Add(category);
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("GetAllCategories() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return categories;
+        }
+
+        /// <summary>
+        /// Creates a new Driver entry in the database
+        /// </summary>
+        /// <param name="driver">Driver to be created</param>
+        /// <returns>Driver with new row ID</returns>
+        public static Category CreateCategory(Category category)
+        {
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "INSERT INTO categories (Name, Length, Qualifying, Light, Ladder, Active) VALUES (@name, @length, @qualifying, @light, @ladder, @active);";
+                    command.CommandText += " select last_insert_rowid();";
+                    command.Parameters.AddWithValue("@name", category.Name);
+                    command.Parameters.AddWithValue("@length", category.Length.ToString());
+                    command.Parameters.AddWithValue("@qualifying", category.Qualifying);
+                    command.Parameters.AddWithValue("@light", category.Light);
+                    command.Parameters.AddWithValue("@ladder", category.Ladder);
+                    command.Parameters.AddWithValue("@active", category.Active.ToString());
+
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        category.ID = Convert.ToInt32(query.GetValue(0));
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("CreateCategory() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return category;
+        }
+
+        /// <summary>
+        /// Searches the database for categories
+        /// </summary>
+        /// <param name="category">Category to search on</param>
+        /// <returns>List of corresponding categories</returns>
+        public static List<Category> SearchCategories(Category category, bool includeInactives)
+        {
+            List<Category> categories = new List<Category>();
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "SELECT * FROM categories WHERE Name LIKE '%" + category.Name + "%'";
+                    if (includeInactives)
+                    {
+                        command.CommandText += " and Active LIKE 'true'";
+                    }
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        Category foundCategory = new Category(query);
+                        categories.Add(foundCategory);
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("SearchCategories() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return categories;
+        }
+
+        #endregion
     }
 }

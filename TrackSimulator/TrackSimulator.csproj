@@ -119,9 +119,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CategoriesPage.xaml.cs">
+      <DependentUpon>CategoriesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Category.cs" />
     <Compile Include="DBHelper.cs" />
     <Compile Include="Dialog_EditDriver.xaml.cs">
       <DependentUpon>Dialog_EditDriver.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog_NewCategory.xaml.cs">
+      <DependentUpon>Dialog_NewCategory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialog_NewDriver.xaml.cs">
       <DependentUpon>Dialog_NewDriver.xaml</DependentUpon>
@@ -159,7 +166,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CategoriesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialog_EditDriver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog_NewCategory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

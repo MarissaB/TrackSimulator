@@ -35,7 +35,7 @@ namespace TrackSimulator
             Logging.CheckLogFileAsync();
 
             bool purgeTables = false;
-            DBHelper.CreateDatabaseTables(purgeTables);
+            DBHelper.CreateDriversTable(purgeTables);
         }
 
         /// <summary>
