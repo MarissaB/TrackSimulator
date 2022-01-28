@@ -366,6 +366,49 @@ namespace TrackSimulator
             return categories;
         }
 
+        /// <summary>
+        /// Updates a category record in the database
+        /// </summary>
+        /// <param name="category">Category to update</param>
+        /// <returns>Boolean for whether the command was successful</returns>
+        public static bool UpdateCategory(Category category)
+        {
+            bool isSuccessful = false;
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "UPDATE categories SET " +
+                        "Name = @name, " +
+                        "Length = @length, " +
+                        "Qualifying = @qualifying, " +
+                        "Light = @light, " +
+                        "Ladder = @ladder, " +
+                        "Active = @active " +
+                        "WHERE ID = @id";
+                    command.Parameters.AddWithValue("@name", category.Name);
+                    command.Parameters.AddWithValue("@length", category.Length.ToString());
+                    command.Parameters.AddWithValue("@qualifying", category.Qualifying);
+                    command.Parameters.AddWithValue("@light", category.Light);
+                    command.Parameters.AddWithValue("@ladder", category.Ladder);
+                    command.Parameters.AddWithValue("@active", category.Active.ToString());
+                    command.Parameters.AddWithValue("@id", category.ID.ToString());
+
+                    SqliteDataReader query = command.ExecuteReader();
+                    db.Close();
+                    isSuccessful = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("UpdateCategory() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return isSuccessful;
+        }
+
         #endregion
     }
 }

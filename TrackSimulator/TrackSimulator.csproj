@@ -124,6 +124,9 @@
     </Compile>
     <Compile Include="Category.cs" />
     <Compile Include="DBHelper.cs" />
+    <Compile Include="Dialog_EditCategory.xaml.cs">
+      <DependentUpon>Dialog_EditCategory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialog_EditDriver.xaml.cs">
       <DependentUpon>Dialog_EditDriver.xaml</DependentUpon>
     </Compile>
@@ -167,6 +170,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="CategoriesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog_EditCategory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

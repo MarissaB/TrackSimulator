@@ -17,6 +17,13 @@ namespace TrackSimulator
             DriverTable = DBHelper.GetAllDrivers();
         }
 
+        private void ResetSearchFields()
+        {
+            FirstName.Text = "";
+            LastName.Text = "";
+            DriverNumber.Text = "";
+        }
+
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             Driver findDriver = new Driver(FirstName.Text, LastName.Text, DriverNumber.Text);
@@ -27,7 +34,12 @@ namespace TrackSimulator
         private async void NewDriver_Click(object sender, RoutedEventArgs e)
         {
             Dialog_NewDriver dialog = new Dialog_NewDriver();
-            _ = await dialog.ShowAsync();
+            ContentDialogResult contentDialogResult = await dialog.ShowAsync();
+            if (contentDialogResult == ContentDialogResult.Primary)
+            {
+                ResetSearchFields();
+                Search_Click(null, null);
+            }
         }
 
         private void RefreshSearchResults()
@@ -39,8 +51,12 @@ namespace TrackSimulator
         private async void EditDriver_Click(object sender, RoutedEventArgs e)
         {
             Dialog_EditDriver dialog = new Dialog_EditDriver((Driver)DriverDisplayTable.SelectedItem);
-            _ = await dialog.ShowAsync();
-            RefreshSearchResults();
+            ContentDialogResult contentDialogResult = await dialog.ShowAsync();
+            if (contentDialogResult == ContentDialogResult.Primary)
+            {
+                ResetSearchFields();
+                Search_Click(null, null);
+            }
         }
 
         private void DriverDisplayTable_SelectionChanged(object sender, SelectionChangedEventArgs e)

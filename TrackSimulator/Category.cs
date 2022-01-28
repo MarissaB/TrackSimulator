@@ -56,5 +56,67 @@ namespace TrackSimulator
             }
         }
 
+        /// <summary>
+        /// Defines all supported finish line options that categories can have.
+        /// </summary>
+        /// <returns>List of options</returns>
+        public static List<int> GetLengthOptions()
+        {
+            List<int> lengthTypes = new List<int>
+            {
+                1320,
+                990,
+                660,
+                330,
+                60
+            };
+            return lengthTypes;
+        }
+
+        /// <summary>
+        /// Defines all supported light options that categories can have.
+        /// </summary>
+        /// <returns>List of options</returns>
+        public static List<string> GetLightOptions()
+        {
+            List<string> lightTypes = new List<string>
+            {
+                "Sportsman",
+                "Pro"
+            };
+            return lightTypes;
+        }
+
+        /// <summary>
+        /// Defines all supported qualifying options that categories can have.
+        /// </summary>
+        /// <returns>List of options</returns>
+        public static List<string> GetQualifyingOptions()
+        {
+            List<string> qualifyingTypes = new List<string>
+            {
+                "None",
+                "Best Elapsed Time",
+                "Best Reaction Time"
+            };
+            return qualifyingTypes;
+        }
+
+        /// <summary>
+        /// Defines all supported ladder options that categories can have.
+        /// </summary>
+        /// <returns>List of options</returns>
+        public static List<string> GetLadderOptions()
+        {
+            List<string> ladderTypes = new List<string>
+            {
+                "Best Elapsed Time",
+                "Best Reaction Time"
+            };
+            return ladderTypes;
+        }
+
+
+
     }
 }

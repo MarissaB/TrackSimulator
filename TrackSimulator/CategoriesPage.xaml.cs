@@ -38,15 +38,26 @@ namespace TrackSimulator
             RefreshSearchResults();
         }
 
-        private void NewCategory_Click(object sender, RoutedEventArgs e)
+        private async void NewCategory_Click(object sender, RoutedEventArgs e)
         {
             Dialog_NewCategory dialog = new Dialog_NewCategory();
-            _ = dialog.ShowAsync();
+            ContentDialogResult contentDialogResult = await dialog.ShowAsync();
+            if (contentDialogResult == ContentDialogResult.Primary)
+            {
+                CategoryName.Text = "";
+                Search_Click(null, null);
+            }
         }
 
-        private void EditCategory_Click(object sender, RoutedEventArgs e)
+        private async void EditCategory_Click(object sender, RoutedEventArgs e)
         {
-
+            Dialog_EditCategory dialog = new Dialog_EditCategory((Category)CategoryDisplayTable.SelectedItem);
+            ContentDialogResult contentDialogResult = await dialog.ShowAsync();
+            if (contentDialogResult == ContentDialogResult.Primary)
+            {
+                CategoryName.Text = "";
+                Search_Click(null, null);
+            }
         }
 
         private void RefreshSearchResults()
