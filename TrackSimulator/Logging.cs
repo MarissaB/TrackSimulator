@@ -40,6 +40,11 @@ namespace TrackSimulator
             }
         }
 
+        /// <summary>
+        /// Record a message in the log
+        /// </summary>
+        /// <param name="message">String of message</param>
+        /// <param name="type">LogType of message</param>
         public static void Log(string message, LogType type)
         {
             FileInfo logFile = new FileInfo(LogFilePath);
@@ -47,7 +52,7 @@ namespace TrackSimulator
             if (logFile.Exists)
             {
                 StreamWriter contents = logFile.AppendText();
-                contents.WriteLine(DateTime.Now.ToString("YYYY-MM-dd HH:mm") + " [" + type.ToString() + "] " + message);
+                contents.WriteLine(DateTime.Now.ToString("yyyy-MM-dd hh:mm") + " [" + type.ToString() + "] " + message);
                 contents.Close();
             }
         }

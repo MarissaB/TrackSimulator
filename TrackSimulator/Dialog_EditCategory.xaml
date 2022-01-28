@@ -1,0 +1,48 @@
+﻿<ContentDialog
+    x:Class="TrackSimulator.Dialog_EditCategory"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TrackSimulator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Edit Category"
+    PrimaryButtonText="Save"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="NameEntry" PlaceholderText="REQUIRED"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Length (ft):" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="LengthEntry" PlaceholderText="REQUIRED"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Qualifying Type:" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" x:Name="QualifyingEntry" PlaceholderText="REQUIRED"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Starting Lights:" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="LightEntry" PlaceholderText="REQUIRED"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Ladder Type:" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" x:Name="LadderEntry" PlaceholderText="REQUIRED"/>
+        <TextBlock Grid.Row="5" Grid.Column="0"  Text="Active" VerticalAlignment="Center"/>
+        <CheckBox Grid.Row="5" Grid.Column="1" x:Name="ActiveEntry"/>
+        
+        <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ErrorText" Foreground="Red" FontWeight="Bold" VerticalAlignment="Center" HorizontalTextAlignment="Center"/>
+    </Grid>
+</ContentDialog>
