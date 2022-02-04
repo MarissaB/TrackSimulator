@@ -36,7 +36,8 @@ namespace TrackSimulator
         {
             ("home", typeof(HomePage)),
             ("drivers", typeof(DriversPage)),
-            ("categories", typeof(CategoriesPage))
+            ("categories", typeof(CategoriesPage)),
+            ("reports", typeof(ReportsPage))
         };
 
         private void Navigation_Loaded(object sender, RoutedEventArgs e)
