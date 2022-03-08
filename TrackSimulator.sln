@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackSimulator", "TrackSimulator\TrackSimulator.csproj", "{7CD8FE86-329F-4A1F-BD7D-AD22690568A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackSimulator_Testing", "TrackSimulator_Testing\TrackSimulator_Testing.csproj", "{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -41,6 +43,30 @@ Global
 		{7CD8FE86-329F-4A1F-BD7D-AD22690568A3}.Release|x86.ActiveCfg = Release|x86
 		{7CD8FE86-329F-4A1F-BD7D-AD22690568A3}.Release|x86.Build.0 = Release|x86
 		{7CD8FE86-329F-4A1F-BD7D-AD22690568A3}.Release|x86.Deploy.0 = Release|x86
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|ARM.ActiveCfg = Debug|ARM
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|ARM.Build.0 = Debug|ARM
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|ARM.Deploy.0 = Debug|ARM
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|ARM64.Build.0 = Debug|ARM64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|x64.ActiveCfg = Debug|x64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|x64.Build.0 = Debug|x64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|x64.Deploy.0 = Debug|x64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|x86.ActiveCfg = Debug|x86
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|x86.Build.0 = Debug|x86
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Debug|x86.Deploy.0 = Debug|x86
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|ARM.ActiveCfg = Release|ARM
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|ARM.Build.0 = Release|ARM
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|ARM.Deploy.0 = Release|ARM
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|ARM64.ActiveCfg = Release|ARM64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|ARM64.Build.0 = Release|ARM64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|ARM64.Deploy.0 = Release|ARM64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|x64.ActiveCfg = Release|x64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|x64.Build.0 = Release|x64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|x64.Deploy.0 = Release|x64
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|x86.ActiveCfg = Release|x86
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|x86.Build.0 = Release|x86
+		{382AEFAB-2C53-4CD3-A5FD-1449E2832FD2}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

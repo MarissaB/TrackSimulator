@@ -105,7 +105,11 @@ namespace TrackSimulator
                     db.Open();
                     SqliteCommand command = new SqliteCommand();
                     command.Connection = db;
-                    command.CommandText = "SELECT * FROM drivers WHERE " + driver.SearchTerms(includeInactives);
+                    command.CommandText = "SELECT * FROM drivers WHERE " + driver.SearchTerms();
+                    if (!includeInactives)
+                    {
+                        command.CommandText += " and Active LIKE 'true'";
+                    }
                     SqliteDataReader query = command.ExecuteReader();
 
                     while (query.Read())
@@ -409,6 +413,53 @@ namespace TrackSimulator
             return isSuccessful;
         }
 
+        #endregion
+
+        #region Run Commands
+        /// <summary>
+        /// Creates the driver table
+        /// </summary>
+        /// <param name="purge">Whether to purge the table from the database</param>
+        internal static void CreateRunTable(bool purge)
+        {
+            try
+            {
+                DatabaseFile = new SqliteConnection("Filename=" + DatabaseFilePath);
+
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    if (purge)
+                    {
+                        command.CommandText = @"DROP TABLE IF EXISTS runs";
+                        _ = command.ExecuteNonQuery();
+                    }
+
+                    // TODO: Set up command to create Run table
+                    command.CommandText =
+                        @"CREATE TABLE IF NOT EXISTS 'runs' (
+                                            'ID'    INTEGER,
+	                                        'FirstName' TEXT,
+	                                        'LastName'  TEXT,
+	                                        'City'  TEXT,
+	                                        'State' TEXT,
+	                                        'Car_Make'  TEXT,
+	                                        'Car_Model' TEXT,
+	                                        'Car_Year'  INTEGER,
+	                                        'DriverNumber'    TEXT,
+                                            PRIMARY KEY('ID' AUTOINCREMENT));";
+                    _ = command.ExecuteNonQuery();
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("CreateRunTable() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+        }
         #endregion
     }
 }

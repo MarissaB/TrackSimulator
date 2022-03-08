@@ -62,11 +62,12 @@
                                SelectionMode="Single" SelectionChanged="RunDisplayTable_SelectionChanged" IsReadOnly="True">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Header="ID" Binding="{Binding ID}" Tag="ID" />
+                    <controls:DataGridTextColumn Header="Date" Binding="{Binding Start}" Tag="Date" />
                     <controls:DataGridTextColumn Header="Lane" Binding="{Binding Lane}" Tag="Lane" />
                     <controls:DataGridCheckBoxColumn Header="Winner" Binding="{Binding Winner}" Tag="Winner" />
-                    <controls:DataGridTextColumn Header="DriverNumber" Binding="{Binding DriverNumber}" Tag="DriverNumber" />
-                    <controls:DataGridTextColumn Header="CategoryName" Binding="{Binding CategoryName}" Tag="CategoryName" />
-                    <controls:DataGridTextColumn Header="CategoryRound" Binding="{Binding CategoryRound}" Tag="CategoryRound" />
+                    <controls:DataGridTextColumn Header="Driver Number" Binding="{Binding DriverNumber}" Tag="DriverNumber" />
+                    <controls:DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Tag="CategoryName" />
+                    <controls:DataGridTextColumn Header="Round" Binding="{Binding CategoryRound}" Tag="CategoryRound" />
                     <controls:DataGridCheckBoxColumn Header="Elimination" Binding="{Binding Elimination}" Tag="Elimination" />
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
