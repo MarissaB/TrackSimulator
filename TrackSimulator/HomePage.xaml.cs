@@ -24,4 +24,5 @@ namespace TrackSimulator
         {
             this.InitializeComponent();
         }
+    }
 }

@@ -76,15 +76,11 @@ namespace TrackSimulator
         /// </summary>
         /// <param name="includeInactives">Whether to include inactive records in the search</param>
         /// <returns>search string</returns>
-        public string SearchTerms(bool includeInactives)
+        public string SearchTerms()
         {
             string searchTerm = " FirstName LIKE '%" + FirstName + "%' and ";
             searchTerm += " LastName LIKE '%" + LastName + "%' and ";
             searchTerm += " DriverNumber LIKE '%" + DriverNumber + "%'";
-            if (!includeInactives)
-            {
-                searchTerm += " and Active LIKE 'true'";
-            }
             return searchTerm;
         }
 
