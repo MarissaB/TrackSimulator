@@ -49,6 +49,10 @@ namespace TrackSimulator
             Active = true;
         }
 
+        /// <summary>
+        /// Constructor using SqliteDataReader result
+        /// </summary>
+        /// <param name="queryResult"></param>
         public Driver(SqliteDataReader queryResult)
         {
             ID = Convert.ToInt32(queryResult.GetValue(0));

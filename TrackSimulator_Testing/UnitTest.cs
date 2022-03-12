@@ -64,7 +64,8 @@ namespace TrackSimulator_Testing
             new object[] { new DateTime(2022, 1, 18, 10, 5, 30, 456), new DateTime(2022, 1, 18, 10, 5, 30, 800), 0.344},
             new object[] { new DateTime(2022, 1, 18, 10, 5, 30, 150), new DateTime(2022, 1, 18, 10, 5, 35, 785), 5.635},
             new object[] { new DateTime(2022, 1, 18, 10, 5, 30, 100), new DateTime(2022, 1, 18, 10, 5, 30, 100), 0},
-            new object[] { new DateTime(2022, 1, 18, 10, 5, 30, 400), new DateTime(2022, 1, 18, 10, 5, 30, 200), 0}
+            new object[] { new DateTime(2022, 1, 18, 10, 5, 30, 400), new DateTime(2022, 1, 18, 10, 5, 30, 200), 0},
+            new object[] { new DateTime(2022, 1, 18, 10, 5, 30, 400), null, 0}
         };
     }
 }

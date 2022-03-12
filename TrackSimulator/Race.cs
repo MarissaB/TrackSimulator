@@ -12,24 +12,26 @@ namespace TrackSimulator
         public int LeftRunID { get; set; }
         public int RightRunID { get; set; }
         public int WinningRunID { get; set; }
-        public int CategoryID { get; set; }
-        /// <summary>
-        /// For app display only
-        /// </summary>
-        public string CategoryName { get; set; }
-        public int CategoryRound { get; set; }
+        public int Round { get; set; }
         public bool Elimination { get; set; }
+        public Category Category { get; set; }
 
-        public Race() { }
+        public Race() 
+        {
+            Category = new Category();
+        }
 
         public Race(int leftRun, int rightRun, int winnerRun, int categoryID, string categoryName, int round, bool elimination)
         {
             LeftRunID = leftRun;
             RightRunID = rightRun;
             WinningRunID = winnerRun;
-            CategoryID = categoryID;
-            CategoryName = categoryName;
-            CategoryRound = round;
+            Category = new Category
+            {
+                ID = categoryID,
+                Name = categoryName
+            };
+            Round = round;
             Elimination = elimination;
         }
     }
