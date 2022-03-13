@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace TrackSimulator
 {
@@ -22,6 +23,7 @@ namespace TrackSimulator
                 CategoryNames.Add(category.ID + " | " + category.Name);
             }
             SetRacingState(false); // Start with the settings enabled and queue disabled.
+            CategoryList.SelectedIndex = 0;
         }
 
         private void SetRacingState(bool setState)
@@ -70,6 +72,14 @@ namespace TrackSimulator
             string selected = CategoryList.SelectedValue.ToString();
             int id = Convert.ToInt32(selected.Split("|")[0].Trim());
             SelectedCategory = Categories.First(category => category.ID == id);
+        }
+
+        private void RoundInput_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (RoundInput.Value < 1)
+            {
+                RoundInput.Value = 1;
+            }
         }
     }
 }

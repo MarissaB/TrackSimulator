@@ -5,7 +5,7 @@
     xmlns:local="using:TrackSimulator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:controls1="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -18,7 +18,7 @@
                     <TextBlock Text="Category:" VerticalAlignment="Center" Margin="0,10, 10, 10"/>
                     <ComboBox x:Name="CategoryList" ItemsSource="{x:Bind CategoryNames}" Width="300" Margin="0,0,50,0" VerticalAlignment="Center" SelectionChanged="CategoryList_SelectionChanged"/>
                     <TextBlock Text="Round:" VerticalAlignment="Center" Margin="10"/>
-                    <TextBox x:Name="RoundInput" Width="50" Margin="0,0,50,0"/>
+                    <controls1:NumberBox x:Name="RoundInput" Width="75" Margin="0,0,50,0" SmallChange="1" LargeChange="1" SpinButtonPlacementMode="Hidden" Text="1" ValueChanged="RoundInput_ValueChanged"/>
                     <RadioButton GroupName="RunTypeSelection" Margin="10,0,20,0" x:Name="ToggleElimination" Content="Elimination"/>
                     <RadioButton GroupName="RunTypeSelection" Margin="0,0,50,0" x:Name="ToggleTimeTrial" Content="Time Trial" IsChecked="True"/>
                     <CheckBox x:Name="ToggleTimeslips" IsChecked="True" Content="Print Timeslips"/>
