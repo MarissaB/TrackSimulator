@@ -93,8 +93,10 @@ namespace TrackSimulator
         /// Searches the database for drivers
         /// </summary>
         /// <param name="driver">Driver to search on</param>
+        /// <param name="count">Number of drivers to return</param>
+        /// <param name="includeInactives">Whether to include inactive drivers</param>
         /// <returns>List of corresponding drivers</returns>
-        public static List<Driver> SearchDrivers(Driver driver, bool includeInactives)
+        public static List<Driver> SearchDrivers(Driver driver, int count, bool includeInactives)
         {
             List<Driver> drivers = new List<Driver>();
             try
@@ -108,6 +110,10 @@ namespace TrackSimulator
                     if (!includeInactives)
                     {
                         command.CommandText += " and Active LIKE 'true'";
+                    }
+                    if (count > 0)
+                    {
+                        command.CommandText += " LIMIT " + count.ToString();
                     }
                     SqliteDataReader query = command.ExecuteReader();
 

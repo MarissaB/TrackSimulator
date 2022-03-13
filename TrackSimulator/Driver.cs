@@ -83,5 +83,9 @@ namespace TrackSimulator
             return searchTerm;
         }
 
+        public string FullName()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }

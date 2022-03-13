@@ -25,7 +25,7 @@ namespace TrackSimulator
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             Driver findDriver = new Driver(FirstName.Text, LastName.Text, DriverNumber.Text);
-            DriverTable = DBHelper.SearchDrivers(findDriver, IncludeInactives.IsChecked.Value);
+            DriverTable = DBHelper.SearchDrivers(findDriver, 100, IncludeInactives.IsChecked.Value);
             RefreshSearchResults();
         }
 

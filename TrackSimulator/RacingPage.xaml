@@ -5,7 +5,7 @@
     xmlns:local="using:TrackSimulator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:controls1="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:controls1="using:Microsoft.UI.Xaml.Controls" xmlns:controls2="using:TrackSimulator.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -47,10 +47,14 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" x:Name="RaceDisplay" Orientation="Vertical">
                     <TextBlock Text="This is the live display"/>
+                    <Button x:Name="PushPair" Content="Push Pair" Click="PushPair_Click"/>
+                    <TextBlock x:Name="LeftDriver"/>
+                    <TextBlock x:Name="RightDriver"/>
                 </StackPanel>
-                <controls:WrapPanel Grid.Column="1">
+                <StackPanel Orientation="Vertical" Grid.Column="1">
                     <TextBlock Text="This is the queue display"/>
-                </controls:WrapPanel>
+                    <controls:WrapPanel x:Name="QueueWrapper" Grid.Column="1"/>
+                </StackPanel>
             </Grid>
         </StackPanel>
     </Grid>

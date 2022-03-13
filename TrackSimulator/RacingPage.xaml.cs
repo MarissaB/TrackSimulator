@@ -4,6 +4,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls;
+using TrackSimulator.Controls;
 
 namespace TrackSimulator
 {
@@ -24,6 +25,10 @@ namespace TrackSimulator
             }
             SetRacingState(false); // Start with the settings enabled and queue disabled.
             CategoryList.SelectedIndex = 0;
+            AddQueuePair();
+            AddQueuePair();
+            AddQueuePair();
+            AddQueuePair();
         }
 
         private void SetRacingState(bool setState)
@@ -34,12 +39,14 @@ namespace TrackSimulator
             {
                 StartRacing.Visibility = Visibility.Collapsed;
                 StopRacing.Visibility = Visibility.Visible;
+                PushPair.IsEnabled = true;
                 Status.Text = "Racing has started. Enter vehicles in the queue and operate the races. Click 'Stop Racing' to change settings.";
             }
             else
             {
                 StartRacing.Visibility = Visibility.Visible;
                 StopRacing.Visibility = Visibility.Collapsed;
+                PushPair.IsEnabled = false;
                 Status.Text = "Racing has stopped. Change race settings above if needed. Click 'Start Racing' when finished to unlock the queue.";
             }
         }
@@ -79,6 +86,40 @@ namespace TrackSimulator
             if (RoundInput.Value < 1)
             {
                 RoundInput.Value = 1;
+            }
+        }
+
+        /// <summary>
+        /// Creates a new QueuePair at the end of the rank list and moves the others up
+        /// </summary>
+        private void AddQueuePair()
+        {
+            QueuePair pair = new QueuePair();
+            pair.Category = SelectedCategory;
+            int maxPairs = 4;
+            foreach (QueuePair queuePair in QueueWrapper.Children)
+            {
+                int rank = queuePair.Rank - 1;
+                queuePair.UpdateRank(rank);
+            }
+            pair.UpdateRank(maxPairs);
+            QueueWrapper.Children.Add(pair);
+        }
+
+        /// <summary>
+        /// Pushes the top pair to the starting line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PushPair_Click(object sender, RoutedEventArgs e)
+        {
+            QueuePair firstPair = (QueuePair)QueueWrapper.Children[0];
+            if (firstPair.LeftValid && firstPair.RightValid)
+            {
+                LeftDriver.Text = firstPair.LeftDriver.FullName();
+                RightDriver.Text = firstPair.RightDriver.FullName();
+                QueueWrapper.Children.RemoveAt(0);
+                AddQueuePair();
             }
         }
     }
