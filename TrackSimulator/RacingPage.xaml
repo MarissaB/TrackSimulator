@@ -10,6 +10,35 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <StackPanel Orientation="Vertical" Padding="10,0,0,0">
+            <TextBlock x:Name="PageHeader" Text="Racing" FontSize="42" FontWeight="Bold"/>
+            <TextBlock x:Name="Directions" FontSize="16" Padding="0,10,0,10" Text="Enter vehicles in the queue then advance them to the starting line. Use the toggles to change race options." TextWrapping="Wrap"/>
+            <controls:WrapPanel x:Name="RaceOptions">
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                    <TextBlock Text="Category:" VerticalAlignment="Center" Margin="0,10, 10, 10"/>
+                    <ComboBox x:Name="CategoryList" ItemsSource="{x:Bind CategoryNames}" Width="300" Margin="0,0,50,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Round:" VerticalAlignment="Center" Margin="10"/>
+                    <TextBox x:Name="RoundInput" Width="50" Margin="0,0,50,0"/>
+                    <TextBlock x:Name="TimeTrialLabel" Text="Time Trial" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <ToggleSwitch x:Name="EliminationToggle" IsOn="False" Width="75" OnContent="Elimination" OffContent="Elimination"/>
+                </StackPanel>
+            </controls:WrapPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="StartRacing" Margin="0,0,10,0" Click="StartRacing_Click" Background="LightGreen">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE768;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0"/>
+                        <TextBlock Text="Start Racing"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="StopRacing" Margin="0,0,10,0" Click="StopRacing_Click" Background="Tomato">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE71A;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0"/>
+                        <TextBlock Text="Stop Racing"/>
+                    </StackPanel>
+                </Button>
+                <TextBlock FontSize="16" Padding="0,10,10,10" Text="Status:" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" FontSize="16" Padding="0,10,0,10" TextWrapping="Wrap"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
