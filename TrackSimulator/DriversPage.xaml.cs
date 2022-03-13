@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System.Collections.ObjectModel;
 using System;
 
 namespace TrackSimulator

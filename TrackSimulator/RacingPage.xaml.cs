@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace TrackSimulator
 {
@@ -21,6 +11,7 @@ namespace TrackSimulator
         public List<string> CategoryNames { get; set; }
         public List<Category> Categories { get; set; }
         public bool RacingStarted { get; set; }
+        public Category SelectedCategory { get; set; }
         public RacingPage()
         {
             this.InitializeComponent();
@@ -58,7 +49,9 @@ namespace TrackSimulator
         {
             CategoryList.IsEnabled = !RacingStarted;
             RoundInput.IsEnabled = !RacingStarted;
-            EliminationToggle.IsEnabled = !RacingStarted;
+            ToggleTimeTrial.IsEnabled = !RacingStarted;
+            ToggleElimination.IsEnabled = !RacingStarted;
+            ToggleTimeslips.IsEnabled = !RacingStarted;
         }
 
         private void StartRacing_Click(object sender, RoutedEventArgs e)
@@ -69,6 +62,14 @@ namespace TrackSimulator
         private void StopRacing_Click(object sender, RoutedEventArgs e)
         {
             SetRacingState(false);
+        }
+
+        private void CategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Selected format example: 14 | Quick 16
+            string selected = CategoryList.SelectedValue.ToString();
+            int id = Convert.ToInt32(selected.Split("|")[0].Trim());
+            SelectedCategory = Categories.First(category => category.ID == id);
         }
     }
 }
