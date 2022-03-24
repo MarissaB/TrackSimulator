@@ -30,8 +30,8 @@
                 <ComboBox x:Name="CategoryList" ItemsSource="{x:Bind CategoryNames}" Width="300" Margin="0,0,50,0"/>
                 <TextBlock Text="Round:" VerticalAlignment="Center" Margin="10"/>
                 <TextBox x:Name="RoundInput" Width="50" Margin="0,0,50,0"/>
-                <RadioButton GroupName="RunTypeSelection" Margin="10,0,50,0" x:Name="ToggleEliminationsOnly" Content="Eliminations Only"/>
-                <RadioButton GroupName="RunTypeSelection" Margin="0,0,50,0" x:Name="ToggleTimeTrialsOnly" Content="Time Trials Only"/>
+                <RadioButton GroupName="RunTypeSelection" Margin="10,0,20,0" x:Name="ToggleEliminationsOnly" Content="Eliminations Only"/>
+                <RadioButton GroupName="RunTypeSelection" Margin="0,0,20,0" x:Name="ToggleTimeTrialsOnly" Content="Time Trials Only"/>
                 <RadioButton GroupName="RunTypeSelection" x:Name="ToggleViewAll" Content="View All" IsChecked="True"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">

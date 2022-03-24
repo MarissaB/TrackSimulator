@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Data.Sqlite;
+using System;
 
 namespace TrackSimulator
 {
@@ -25,7 +22,7 @@ namespace TrackSimulator
         /// <summary>
         /// The seconds between the Start and driver crossing the start line (reacting).
         /// </summary>
-        public decimal ReactionTime { get; set; }
+        public decimal Time_Reaction { get; set; }
         /// <summary>
         /// Seconds between the ReactionTime and driver crossing the 60ft line.
         /// </summary>
@@ -46,44 +43,56 @@ namespace TrackSimulator
         /// Seconds between the ReactionTime and driver crossing the 1320ft line.
         /// </summary>
         public decimal Time_1320 { get; set; }
-        public decimal Speed_660 { get; set; }
-        public decimal Speed_1320 { get; set; }
-        public int CategoryID { get; set; }
-        /// <summary>
-        /// Used for app display only
-        /// </summary>
-        public string CategoryName { get; set; }
-        public decimal CategoryRound { get; set; }
-        /// <summary>
-        /// Whether the run should be logged as an elimination pass instead of a time trial
-        /// </summary>
-        public bool Elimination { get; set; }
-        public int DriverID { get; set; }
-        /// <summary>
-        /// Used for app display only
-        /// </summary>
-        public string DriverFullName { get; set; }
-        /// <summary>
-        /// Used for app display only
-        /// </summary>
-        public string DriverNumber { get; set; }
+        public int Speed_660 { get; set; }
+        public int Speed_1320 { get; set; }
+        public Race Race { get; set; }
+        public Driver Driver { get; set; }
 
         public Run()
         {
             SetEmptyRun();
+            Driver = new Driver();
+            Race = new Race();
         }
 
-        public Run(string lane, int driverID, string driverFullName, string driverNumber, int categoryID, string categoryName, decimal categoryRound, bool elimination)
+        public Run(string lane, int driverID, string driverFirst, string driverLast, string driverNumber, int categoryID, string categoryName, int round, bool elimination)
         {
             SetLane(lane);
-            DriverID = driverID;
-            DriverFullName = driverFullName;
-            DriverNumber = driverNumber;
-            CategoryID = categoryID;
-            CategoryName = categoryName;
-            CategoryRound = categoryRound;
-            Elimination = elimination;
             SetEmptyRun();
+            Driver = new Driver(driverFirst, driverLast, driverNumber)
+            {
+                ID = driverID
+            };
+            Category category = new Category
+            {
+                ID = categoryID,
+                Name = categoryName
+            };
+            Race = new Race
+            {
+                Category = category,
+                Round = round,
+                Elimination = elimination
+            };
+        }
+
+        /// <summary>
+        /// Constructor using SqliteDataReader result
+        /// </summary>
+        /// <param name="queryResult"></param>
+        public Run(SqliteDataReader queryResult)
+        {
+            ID = Convert.ToInt32(queryResult.GetValue(0));
+            Lane = (char)queryResult.GetValue(1);
+            string winnerResult = (string)queryResult.GetValue(2);
+            if (winnerResult == "true")
+            {
+                Winner = true;
+            }
+            else { Winner = false; }
+
+            Dial = (decimal)queryResult.GetValue(3);
+            // TODO: Finish parsing Run from queryResult
         }
 
         /// <summary>
@@ -131,7 +140,7 @@ namespace TrackSimulator
         public void SetTimes(DateTime start, DateTime sensor_reaction, DateTime sensor_60, DateTime sensor_330, DateTime sensor_660, DateTime sensor_990, DateTime sensor_1320)
         {
             Start = start;
-            ReactionTime = CalculateTimeInSeconds(start, sensor_reaction);
+            Time_Reaction = CalculateTimeInSeconds(start, sensor_reaction);
 
             // Times are set from the moment of reaction (leaving the starting line) to the moment crossing the distance sensor.
             Time_60 = CalculateTimeInSeconds(sensor_reaction, sensor_60);
@@ -157,6 +166,8 @@ namespace TrackSimulator
 
             return result;
         }
+
+        
     }
 }
 

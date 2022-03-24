@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Microsoft.Data.Sqlite;
 using Windows.Storage;
 
@@ -94,8 +93,10 @@ namespace TrackSimulator
         /// Searches the database for drivers
         /// </summary>
         /// <param name="driver">Driver to search on</param>
+        /// <param name="count">Number of drivers to return</param>
+        /// <param name="includeInactives">Whether to include inactive drivers</param>
         /// <returns>List of corresponding drivers</returns>
-        public static List<Driver> SearchDrivers(Driver driver, bool includeInactives)
+        public static List<Driver> SearchDrivers(Driver driver, int count, bool includeInactives)
         {
             List<Driver> drivers = new List<Driver>();
             try
@@ -109,6 +110,10 @@ namespace TrackSimulator
                     if (!includeInactives)
                     {
                         command.CommandText += " and Active LIKE 'true'";
+                    }
+                    if (count > 0)
+                    {
+                        command.CommandText += " LIMIT " + count.ToString();
                     }
                     SqliteDataReader query = command.ExecuteReader();
 
@@ -125,6 +130,43 @@ namespace TrackSimulator
                 Logging.Log("SearchDrivers() failed || " + ex.Message, Logging.LogType.ERROR);
             }
             return drivers;
+        }
+
+        /// <summary>
+        /// Searches the database for drivers
+        /// </summary>
+        /// <param name="driver">Driver to search on</param>
+        /// <param name="count">Number of drivers to return</param>
+        /// <param name="includeInactives">Whether to include inactive drivers</param>
+        /// <returns>List of corresponding drivers</returns>
+        public static Driver FindDriverByNumber(string driverNumber)
+        {
+            Driver driver = new Driver();
+            driver.DriverNumber = driverNumber;
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "SELECT * FROM drivers WHERE DriverNumber = ";
+                    command.CommandText += "'" + driverNumber + "'";
+                    command.CommandText += " and Active LIKE 'true' LIMIT 1";
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        driver = new Driver(query);
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("FindDriverByNumber() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return driver;
         }
 
         /// <summary>
@@ -417,7 +459,7 @@ namespace TrackSimulator
 
         #region Run Commands
         /// <summary>
-        /// Creates the driver table
+        /// Creates the runs table
         /// </summary>
         /// <param name="purge">Whether to purge the table from the database</param>
         internal static void CreateRunTable(bool purge)
@@ -438,18 +480,22 @@ namespace TrackSimulator
                         _ = command.ExecuteNonQuery();
                     }
 
-                    // TODO: Set up command to create Run table
                     command.CommandText =
                         @"CREATE TABLE IF NOT EXISTS 'runs' (
                                             'ID'    INTEGER,
-	                                        'FirstName' TEXT,
-	                                        'LastName'  TEXT,
-	                                        'City'  TEXT,
-	                                        'State' TEXT,
-	                                        'Car_Make'  TEXT,
-	                                        'Car_Model' TEXT,
-	                                        'Car_Year'  INTEGER,
-	                                        'DriverNumber'    TEXT,
+                                            'Lane'  TEXT,
+                                            'Winner'    TEXT,
+                                            'Dial'  NUMERIC,
+                                            'Start' TEXT,
+                                            'Time_Reaction' NUMERIC,
+                                            'Time_60'   NUMERIC,
+                                            'Time_330'  NUMERIC,
+                                            'Time_660'  NUMERIC,
+                                            'Time_990'  NUMERIC,
+                                            'Time_1320' NUMERIC,
+                                            'Speed_660' INTEGER,
+                                            'Speed_1320'    INTEGER,
+                                            'DriverID'  INTEGER NOT NULL,
                                             PRIMARY KEY('ID' AUTOINCREMENT));";
                     _ = command.ExecuteNonQuery();
                     db.Close();
@@ -459,6 +505,166 @@ namespace TrackSimulator
             {
                 Logging.Log("CreateRunTable() failed || " + ex.Message, Logging.LogType.ERROR);
             }
+        }
+
+        /// <summary>
+        /// Creates a new Run entry in the database
+        /// </summary>
+        /// <param name="run">Run to be created</param>
+        /// <returns>Run with new row ID</returns>
+        public static Run CreateRun(Run run)
+        {
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "INSERT INTO runs (Lane, Winner, Dial, Start, Time_Reaction, Time_60, Time_330, Time_660, Time_990, Time_1320, Speed_660, Speed_1320, DriverID) VALUES (@lane, @winner, @dial, @start, @time_Reaction, @time_60, @time_330, @time_660, @time_990, @time_1320, @speed_660, @speed_1320, @driverID);";
+                    command.CommandText += " select last_insert_rowid();";
+                    command.Parameters.AddWithValue("@lane", run.Lane);
+                    command.Parameters.AddWithValue("@winner", run.Winner.ToString());
+                    command.Parameters.AddWithValue("@dial", run.Dial);
+                    command.Parameters.AddWithValue("@start", run.Start.ToString());
+                    command.Parameters.AddWithValue("@time_60", run.Time_60);
+                    command.Parameters.AddWithValue("@time_330", run.Time_60);
+                    command.Parameters.AddWithValue("@time_660", run.Time_60);
+                    command.Parameters.AddWithValue("@time_990", run.Time_60);
+                    command.Parameters.AddWithValue("@time_1320", run.Time_60);
+                    command.Parameters.AddWithValue("@speed_660", run.Time_60);
+                    command.Parameters.AddWithValue("@speed_1320", run.Time_60);
+                    command.Parameters.AddWithValue("@driverID", run.Driver.ID);
+
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        run.ID = Convert.ToInt32(query.GetValue(0));
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("CreateRun() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return run;
+        }
+
+        /// <summary>
+        /// Loads most recent runs from the database
+        /// </summary>
+        /// <returns>List of Runs</returns>
+        public static List<Run> GetRecentRuns()
+        {
+            List<Run> runs = new List<Run>();
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "SELECT * FROM runs LIMIT 30";
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        Run run = new Run(query);
+                        runs.Add(run);
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("GetAllRuns() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return runs;
+        }
+        #endregion
+
+        #region Race Commands
+        /// <summary>
+        /// Creates the races table
+        /// </summary>
+        /// <param name="purge">Whether to purge the table from the database</param>
+        internal static void CreateRaceTable(bool purge)
+        {
+            try
+            {
+                DatabaseFile = new SqliteConnection("Filename=" + DatabaseFilePath);
+
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    if (purge)
+                    {
+                        command.CommandText = @"DROP TABLE IF EXISTS races";
+                        _ = command.ExecuteNonQuery();
+                    }
+
+                    command.CommandText =
+                        @"CREATE TABLE IF NOT EXISTS 'races' (
+                                            'ID'    INTEGER,
+	                                        'LeftRunID' INTEGER,
+	                                        'RightRunID'    INTEGER,
+	                                        'WinningRunID'  INTEGER,
+	                                        'CategoryID'    INTEGER,
+	                                        'Round' INTEGER,
+	                                        'Elimination'   TEXT,
+                                            PRIMARY KEY('ID' AUTOINCREMENT));";
+                    _ = command.ExecuteNonQuery();
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("CreateRaceTable() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new Race entry in the database
+        /// </summary>
+        /// <param name="race">Run to be created</param>
+        /// <returns>Race with new row ID</returns>
+        public static Race CreateRace(Race race)
+        {
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "INSERT INTO races (LeftRunID, RightRunID, WinningRunID, CategoryID, Round, Elimination) VALUES (@leftRunID, @rightRunID, @winningRunID, @categoryID, @round, @elimination);";
+                    command.CommandText += " select last_insert_rowid();";
+                    command.Parameters.AddWithValue("@leftRunID", race.LeftRunID);
+                    command.Parameters.AddWithValue("@rightRunID", race.RightRunID);
+                    command.Parameters.AddWithValue("@winningRunID", race.WinningRunID);
+                    command.Parameters.AddWithValue("@categoryID", race.Category.ID);
+                    command.Parameters.AddWithValue("@round", race.Round);
+                    command.Parameters.AddWithValue("@elimination", race.Elimination.ToString());
+
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        race.ID = Convert.ToInt32(query.GetValue(0));
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("CreateRace() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return race;
         }
         #endregion
     }

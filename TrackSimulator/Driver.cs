@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrackSimulator
 {
@@ -49,6 +44,10 @@ namespace TrackSimulator
             Active = true;
         }
 
+        /// <summary>
+        /// Constructor using SqliteDataReader result
+        /// </summary>
+        /// <param name="queryResult"></param>
         public Driver(SqliteDataReader queryResult)
         {
             ID = Convert.ToInt32(queryResult.GetValue(0));
@@ -84,5 +83,9 @@ namespace TrackSimulator
             return searchTerm;
         }
 
+        public string FullName()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }

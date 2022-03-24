@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System.Collections.ObjectModel;
 using System;
 
 namespace TrackSimulator
@@ -27,7 +25,7 @@ namespace TrackSimulator
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             Driver findDriver = new Driver(FirstName.Text, LastName.Text, DriverNumber.Text);
-            DriverTable = DBHelper.SearchDrivers(findDriver, IncludeInactives.IsChecked.Value);
+            DriverTable = DBHelper.SearchDrivers(findDriver, 100, IncludeInactives.IsChecked.Value);
             RefreshSearchResults();
         }
 
