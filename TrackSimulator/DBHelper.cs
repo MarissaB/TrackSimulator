@@ -133,6 +133,43 @@ namespace TrackSimulator
         }
 
         /// <summary>
+        /// Searches the database for drivers
+        /// </summary>
+        /// <param name="driver">Driver to search on</param>
+        /// <param name="count">Number of drivers to return</param>
+        /// <param name="includeInactives">Whether to include inactive drivers</param>
+        /// <returns>List of corresponding drivers</returns>
+        public static Driver FindDriverByNumber(string driverNumber)
+        {
+            Driver driver = new Driver();
+            driver.DriverNumber = driverNumber;
+            try
+            {
+                using (SqliteConnection db = DatabaseFile)
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand();
+                    command.Connection = db;
+                    command.CommandText = "SELECT * FROM drivers WHERE DriverNumber = ";
+                    command.CommandText += "'" + driverNumber + "'";
+                    command.CommandText += " and Active LIKE 'true' LIMIT 1";
+                    SqliteDataReader query = command.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        driver = new Driver(query);
+                    }
+                    db.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log("FindDriverByNumber() failed || " + ex.Message, Logging.LogType.ERROR);
+            }
+            return driver;
+        }
+
+        /// <summary>
         /// Creates a new Driver entry in the database
         /// </summary>
         /// <param name="driver">Driver to be created</param>

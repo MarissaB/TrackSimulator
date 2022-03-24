@@ -40,19 +40,90 @@
                 <TextBlock FontSize="16" Padding="10" Text="Status:" TextWrapping="Wrap"/>
                 <TextBlock x:Name="Status" FontSize="16" Padding="0,10,0,10" TextWrapping="Wrap"/>
             </StackPanel>
-            <Grid x:Name="MainDisplay" MinWidth="500" MinHeight="500" BorderBrush="Aqua" BorderThickness="2">
+            <Grid x:Name="MainDisplay" MinWidth="1200" MinHeight="500" BorderBrush="Aqua" BorderThickness="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" x:Name="RaceDisplay" Orientation="Vertical">
-                    <TextBlock Text="This is the live display"/>
-                    <Button x:Name="PushPair" Content="Push Pair" Click="PushPair_Click"/>
-                    <TextBlock x:Name="LeftDriver"/>
-                    <TextBlock x:Name="RightDriver"/>
-                </StackPanel>
+                <Grid x:Name="TimingDisplayGrid" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!--#region Buttons and Labels for Lanes -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Left Lane" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Grid.Row="0" Grid.Column="1" x:Name="StartRun" Content="Tower Ready" VerticalAlignment="Top"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="Right Lane" />
+                    <TextBlock Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="Driver" />
+                    <TextBlock Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="Dial" />
+                    <TextBlock Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="Stage" />
+                    <TextBlock Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="Reaction" />
+                    <TextBlock Grid.Row="5" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="60 ET" />
+                    <TextBlock Grid.Row="6" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="330 ET" />
+                    <TextBlock Grid.Row="7" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="660 ET" />
+                    <TextBlock Grid.Row="8" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="660 MPH" />
+                    <TextBlock Grid.Row="9" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="990 ET" />
+                    <TextBlock Grid.Row="10" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="1320 ET" />
+                    <TextBlock Grid.Row="11" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="1320 MPH" />
+                    <StackPanel Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="EndRace" Grid.Row="11" Grid.Column="0" Content="End Race"/>
+                        <Button x:Name="SaveRace" Grid.Row="11" Grid.Column="2" Content="Save Race"/>
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region  Info Boxes for Lanes-->
+                    <TextBox Grid.Row="1" Grid.Column="0" x:Name="L_Driver" IsReadOnly="True"/>
+                    <TextBox Grid.Row="2" Grid.Column="0" x:Name="L_Dial" IsReadOnly="True"/>
+                    <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+                        <CheckBox x:Name="L_Prestage" IsChecked="False" IsEnabled="False" Content="Prestaged"/>
+                        <CheckBox x:Name="L_Stage"    IsChecked="False" IsEnabled="False" Content="Staged"/>
+                    </StackPanel>
+                    <TextBox Grid.Row="4"  Grid.Column="0" x:Name="L_Reaction" IsReadOnly="True"/>
+                    <TextBox Grid.Row="5"  Grid.Column="0" x:Name="L_60ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="6"  Grid.Column="0" x:Name="L_330ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="7"  Grid.Column="0" x:Name="L_660ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="8"  Grid.Column="0" x:Name="L_660MPH" IsReadOnly="True"/>
+                    <TextBox Grid.Row="9"  Grid.Column="0" x:Name="L_990ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="10" Grid.Column="0" x:Name="L_1320ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="11" Grid.Column="0" x:Name="L_1320MPH" IsReadOnly="True"/>
+                    
+                    <TextBox Grid.Row="1" Grid.Column="2" x:Name="R_Driver" IsReadOnly="True"/>
+                    <TextBox Grid.Row="2" Grid.Column="2" x:Name="R_Dial" IsReadOnly="True"/>
+                    <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
+                        <CheckBox x:Name="R_Prestage" IsChecked="False" IsEnabled="False" Content="Prestaged"/>
+                        <CheckBox x:Name="R_Stage"    IsChecked="False" IsEnabled="False" Content="Staged"/>
+                    </StackPanel>
+                    <TextBox Grid.Row="4"  Grid.Column="2" x:Name="R_Reaction" IsReadOnly="True"/>
+                    <TextBox Grid.Row="5"  Grid.Column="2" x:Name="R_60ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="6"  Grid.Column="2" x:Name="R_330ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="7"  Grid.Column="2" x:Name="R_660ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="8"  Grid.Column="2" x:Name="R_660MPH" IsReadOnly="True"/>
+                    <TextBox Grid.Row="9"  Grid.Column="2" x:Name="R_990ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="10" Grid.Column="2" x:Name="R_1320ET" IsReadOnly="True"/>
+                    <TextBox Grid.Row="11" Grid.Column="2" x:Name="R_1320MPH" IsReadOnly="True"/>
+                    <!--#endregion-->
+                </Grid>
                 <StackPanel Orientation="Vertical" Grid.Column="1">
-                    <TextBlock Text="This is the queue display"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="PullPair" Content="Pull Back" Click="PullPair_Click" VerticalAlignment="Top"/>
+                        <Button x:Name="PushPair" Content="Push Pair" Click="PushPair_Click" VerticalAlignment="Top"/>
+                    </StackPanel>
                     <controls:WrapPanel x:Name="QueueWrapper" Grid.Column="1"/>
                 </StackPanel>
             </Grid>
